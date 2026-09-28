@@ -1,0 +1,2210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FAME OF DOXXEDHUB</title>
+
+<!-- Google Fonts & FontAwesome -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,600;1,700&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --card-width: 200px;
+  --card-hover-width: 520px;
+  --card-height: 560px;
+  --accent: #d4d4d8;
+  --accent-soft: rgba(212, 212, 216, 0.25);
+  --chrome-silver: #e4e4e7;
+  --chrome-dark: #121212;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050505;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Rajdhani', sans-serif;
+  color: white;
+  overflow-y: hidden;
+  padding-bottom: 50px;
+  position: relative;
+}
+
+/* BACKGROUND LIGHTNING CANVAS CONTAINER */
+#canvas-lightning-container {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* LIGHTNING FLASHES EFFECT */
+.lightning-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle, rgba(228, 228, 231, 0.3) 0%, rgba(113, 113, 122, 0.1) 50%, transparent 100%);
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@keyframes flash-anim {
+  0% { opacity: 0; }
+  10% { opacity: 0.6; filter: blur(2px); }
+  15% { opacity: 0.2; }
+  20% { opacity: 0.7; filter: blur(0px); }
+  30% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* PARTICLES */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(228,228,231,0.85), rgba(113,113,122,0.05));
+  filter: blur(10px);
+  animation: drift linear infinite;
+  opacity: 0.25;
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(100vh) translateX(0px) scale(1);
+  }
+  to {
+    transform: translateY(-120vh) translateX(80px) scale(1.4);
+  }
+}
+
+/* BG & DYNAMIC HOVER BACKGROUND FIXED */
+#bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -10;
+  filter: blur(2px) brightness(0.28) saturate(0.95);
+  pointer-events: none;
+}
+
+#bg-dynamic-image {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: -9;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  filter: blur(3px) brightness(0.35) saturate(1.1);
+  pointer-events: none;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+  radial-gradient(circle at 20% 20%, rgba(228,228,231,0.08), transparent 30%),
+  radial-gradient(circle at 80% 50%, rgba(161,161,170,0.06), transparent 30%),
+  radial-gradient(circle at 50% 100%, rgba(113,113,122,0.05), transparent 40%);
+  z-index: -8;
+}
+
+/* INTRO SCREEN OVERLAY */
+#intro-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000000;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: wait;
+    overflow: hidden;
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#intro-overlay.ready {
+    cursor: pointer;
+}
+
+#intro-overlay.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 71, 87, 0.25) 0%, rgba(0, 162, 255, 0.15) 40%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: auraPulse 4s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes auraPulse {
+    0% { transform: scale(0.8); opacity: 0.5; }
+    100% { transform: scale(1.3); opacity: 0.9; }
+}
+
+.intro-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.intro-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 4rem;
+    color: #ffffff;
+    letter-spacing: -1px;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: introTextReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.intro-subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 6px;
+    color: #888888;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: introTextReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
+.intro-prompt {
+    margin-top: 40px;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: #ff4757;
+    border: 1px solid rgba(255, 71, 87, 0.4);
+    padding: 10px 24px;
+    border-radius: 30px;
+    background: rgba(255, 71, 87, 0.05);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 20px rgba(255, 71, 87, 0.2);
+    opacity: 0;
+    animation: introTextReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards, promptGlow 2s infinite alternate;
+    transition: transform 0.3s ease;
+}
+
+#intro-overlay.ready:hover .intro-prompt {
+    transform: scale(1.05);
+    border-color: #ff4757;
+}
+
+@keyframes introTextReveal {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes promptGlow {
+    0% { box-shadow: 0 0 10px rgba(255, 71, 87, 0.2); }
+    100% { box-shadow: 0 0 25px rgba(255, 71, 87, 0.6); }
+}
+
+.intro-burst {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 80%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-burst.active { opacity: 1; }
+
+#server-counter {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 2000;
+  padding: 8px 14px;
+  border-radius: 4px;
+  background: rgba(18,18,18,0.6);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(228,228,231,0.2);
+  box-shadow:
+    0 0 20px rgba(0,0,0,0.8),
+    inset 0 0 15px rgba(228,228,231,0.03);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+#server-counter:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 25px rgba(228, 228, 231, 0.3), inset 0 0 15px rgba(228, 228, 231, 0.1);
+  transform: translateY(-2px);
+}
+
+/* HEADER & OBLONG SHINED NAVIGATION */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 40px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+.logo:hover { opacity: 0.7; }
+.logo span { font-family: 'Share Tech Mono', monospace; font-style: normal; margin-right: 4px; }
+
+@keyframes navShineGlow {
+  0% {
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 15px rgba(228, 228, 231, 0.15);
+    border-color: rgba(228, 228, 231, 0.25);
+  }
+  50% {
+    box-shadow: 0 6px 35px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+  100% {
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 15px rgba(228, 228, 231, 0.15);
+    border-color: rgba(228, 228, 231, 0.25);
+  }
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 1.05rem;
+    background: rgba(18, 18, 18, 0.75);
+    padding: 12px 28px;
+    border-radius: 50px;
+    border: 1px solid rgba(228, 228, 231, 0.25);
+    backdrop-filter: blur(12px);
+    animation: navShineGlow 3.5s ease-in-out infinite;
+}
+
+nav a, .nav-btn {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.05rem;
+}
+nav a:hover, nav a.active, .nav-btn:hover, .nav-btn.active {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.separator { color: rgba(228, 228, 231, 0.3); user-select: none; font-weight: 300; }
+
+/* HEADER TITLE & COLLAPSIBLE CONTAINER ANIMATION */
+#header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0 10px 0;
+  line-height: 1;
+  position: relative;
+  max-height: 150px;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0px);
+  overflow: hidden;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#header-logo {
+  max-width: 120px;
+  margin-bottom: -10px;
+  filter: drop-shadow(0 0 18px rgba(228,228,231,0.6));
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+#hof-title {
+  font-family: 'Cinzel', serif;
+  font-size: 3rem;
+  letter-spacing: 6px;
+  transition: 0.2s ease-out;
+  position: relative;
+  color: #f4f4f5;
+  text-shadow: 0 0 20px rgba(228,228,231,0.4);
+  animation: titleGlitch 5s infinite;
+}
+
+@keyframes titleGlitch {
+  0%,100% { transform: translate(0); }
+  94% { transform: translate(0); }
+  95% { transform: translate(-2px, 1px); }
+  96% { transform: translate(2px, -1px); }
+  97% { transform: translate(-2px, -1px); }
+  98% { transform: translate(2px, 1px); }
+}
+
+/* WRAPPER & COLLAPSIBLE CARDS ROW ANIMATION */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 1s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.cards-row {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 40px;
+  overflow: hidden;
+  height: 620px;
+  max-height: 700px;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* COLLAPSED STATE STYLING (TRIGGERED VIA JS CLASS) */
+body.content-collapsed #header-container {
+  max-height: 0;
+  opacity: 0;
+  transform: scale(0.95) translateY(-20px);
+  filter: blur(8px);
+  margin: 0;
+  pointer-events: none;
+}
+
+body.content-collapsed .cards-row {
+  max-height: 0;
+  padding: 0 40px;
+  opacity: 0;
+  transform: scale(0.95) translateY(20px);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+/* SIDEBAR GLASSMORPHIC TOGGLE BUTTON */
+.sidebar-morph-toggle {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3000;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(18, 18, 20, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(228, 228, 231, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 0 12px rgba(228, 228, 231, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebar-morph-toggle i {
+  color: #f4f4f5;
+  font-size: 16px;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 6px rgba(228, 228, 231, 0.6));
+}
+
+.sidebar-morph-toggle:hover {
+  background: rgba(28, 28, 32, 0.85);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(228, 228, 231, 0.3);
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* ROTATE ARROW WHEN COLLAPSED */
+body.content-collapsed .sidebar-morph-toggle i {
+  transform: rotate(180deg);
+}
+
+#about-section {
+  overflow-y: auto !important;
+  max-height: none !important;
+  height: auto !important;
+  min-height: auto !important;
+  padding: 40px 20px !important;
+  align-items: flex-start !important;
+}
+
+/* INFINITE */
+#row5 {
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.animate-scroll {
+  display: flex;
+  gap: 20px;
+  animation: scroll 25s linear infinite;
+  will-change: transform;
+}
+
+#row5:hover .animate-scroll {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* CARD */
+.card {
+  position: relative;
+  width: var(--card-width);
+  min-width: var(--card-width);
+  height: var(--card-height);
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(24,24,27,0.85), rgba(9,9,11,0.92));
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(228,228,231,0.2);
+  box-shadow:
+  0 10px 40px rgba(0,0,0,0.8),
+  0 0 20px rgba(228,228,231,0.08);
+  transition:
+  all 1.2s cubic-bezier(.16,1,.3,1),
+  transform 0.15s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -120%;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,0.15),
+    transparent 70%
+  );
+  transform: rotate(25deg);
+  transition: 0.6s;
+  opacity: 0;
+  z-index: 20;
+}
+
+.card:hover::before {
+  animation: cardShimmer 1.8s linear infinite;
+  opacity: 1;
+}
+
+@keyframes cardShimmer {
+  0% { transform: translateX(-120%) rotate(25deg); }
+  100% { transform: translateX(260%) rotate(25deg); }
+}
+
+.card.has-bg {
+  background: transparent;
+}
+
+.card.no-banner {
+  background: linear-gradient(180deg, rgba(24,24,27,0.85), rgba(9,9,11,0.92));
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: radial-gradient(circle at 50% 50%, rgba(228,228,231,0.2), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  animation: silverPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+@keyframes silverPulse {
+  0%,100% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.35;
+  }
+}
+
+.card:hover {
+  width: var(--card-hover-width);
+  transform: translateY(-12px) scale(1.02);
+  border-color: rgba(244,244,245,0.8);
+  box-shadow:
+  0 25px 60px rgba(0,0,0,0.9),
+  0 0 35px rgba(228,228,231,0.2);
+}
+
+.banner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.45) saturate(0.9);
+  transition: 1.5s;
+  z-index: -1;
+}
+
+.card:hover .banner {
+  filter: brightness(0.65) saturate(1.1);
+  transform: scale(1.05);
+}
+
+.profileWrapper {
+  position: absolute;
+  top: 165px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130px;
+  height: 130px;
+  z-index: 5;
+  transition: 1.2s;
+}
+
+.card:hover .profileWrapper {
+  top: 60px;
+  left: 70px;
+  width: 105px;
+  height: 105px;
+}
+
+.profile {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #111;
+  box-shadow: 0 0 20px rgba(228,228,231,0.4);
+}
+
+.profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info {
+  position: absolute;
+  bottom: 80px;
+  width: 100%;
+  text-align: center;
+  z-index: 6;
+  transition: 1.2s;
+}
+
+.card:hover .info {
+  left: 50px;
+  bottom: 190px;
+  width: auto;
+  text-align: left;
+}
+
+.username {
+  font-size: 22px;
+  font-weight: 800;
+  text-shadow: 0 0 12px rgba(228,228,231,0.6);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+}
+
+.tag {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+}
+
+.status-text {
+  position: absolute;
+  bottom: 130px;
+  left: 50px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  opacity: 0;
+  transition: 1.2s;
+}
+
+.card:hover .status-text {
+  opacity: 1;
+}
+
+/* CODER CARD */
+#row7 .card {
+  width: 520px;
+  min-width: 520px;
+  height: 270px;
+  position: relative;
+}
+
+#row7 .card:hover {
+  width: 540px;
+}
+
+#row7 .profileWrapper {
+  top: 80px;
+  left: 100px;
+  width: 110px;
+  height: 110px;
+}
+
+#row7 .card:hover .profileWrapper {
+  top: 78px;
+  left: 97px;
+  width: 115px;
+  height: 115px;
+}
+
+#row7 .info {
+  top: 95px;
+  bottom: auto;
+  left: 190px;
+  width: auto;
+  text-align: left;
+}
+
+#row7 .card:hover .info {
+  top: 95px;
+  bottom: auto;
+  left: 190px;
+}
+
+#row7 .status-text {
+  top: 150px;
+  bottom: auto;
+  left: 190px;
+  opacity: 0.8;
+}
+
+#row7 .card:hover .status-text {
+  opacity: 1;
+}
+
+/* SILVER LIGHTNING SYSTEM EFFECT */
+.coder-lightning-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.coder-bolt {
+  position: absolute;
+  stroke: #e4e4e7;
+  stroke-width: 2;
+  fill: none;
+  filter: drop-shadow(0 0 6px #d4d4d8) drop-shadow(0 0 12px #a1a1aa);
+  opacity: 0;
+}
+
+@keyframes boltStrike {
+  0% { opacity: 0; }
+  5% { opacity: 1; stroke-width: 3; }
+  10% { opacity: 0.3; }
+  15% { opacity: 0.9; stroke-width: 1.5; }
+  25% { opacity: 0; }
+  60% { opacity: 0; }
+  63% { opacity: 0.8; stroke-width: 2; }
+  66% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.fade-glitch {
+  animation: switchGlitch 0.4s ease;
+}
+
+@keyframes switchGlitch {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* MODALS SYSTEM */
+.profile-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(20px);
+  z-index: 4000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, rgba(18, 18, 20, 0.96), rgba(5, 5, 5, 0.98));
+  border: 1px solid rgba(228, 228, 231, 0.3);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(228, 228, 231, 0.15);
+  border-radius: 16px;
+  width: 95%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+
+.profile-modal.active .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+.modal-banner-area {
+  width: 100%;
+  height: 180px;
+  position: relative;
+}
+
+.modal-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s;
+}
+
+.modal-close-btn:hover {
+  background: #f4f4f5;
+  color: #000;
+  border-color: #f4f4f5;
+  box-shadow: 0 0 15px rgba(255,255,255,0.8);
+  transform: rotate(90deg);
+}
+
+.modal-avatar-wrapper {
+  position: absolute;
+  bottom: -50px;
+  left: 40px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 4px solid #111;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(228, 228, 231, 0.5);
+}
+
+.modal-avatar-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-body {
+  padding: 70px 40px 40px 40px;
+}
+
+.modal-name-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 25px;
+}
+
+.modal-display-name {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 0 15px rgba(228,228,231,0.5);
+}
+
+.modal-username-tag {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.4);
+}
+
+.modal-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-status-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.85);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.modal-grid-telemetry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.telemetry-card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(228, 228, 231, 0.15);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 15px rgba(228, 228, 231, 0.03);
+}
+
+.telemetry-val {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* LIVE HUD WIDGET DESIGNS */
+.spotify-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.spotify-album-art {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: 0 0 15px rgba(30, 215, 96, 0.3);
+}
+
+.spotify-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.spotify-track {
+  font-weight: 700;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.spotify-artist {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
+}
+
+.spotify-progress-wrapper {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.spotify-bar-bg {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.spotify-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #1ed760;
+  box-shadow: 0 0 8px #1ed760;
+}
+
+.spotify-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 4px;
+}
+
+.vscode-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.vscode-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vscode-file {
+  font-weight: 700;
+  color: #fff;
+}
+
+.vscode-workspace {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9rem;
+}
+
+/* GLOBAL MEDIA PLAYER HUD WIDGET */
+#media-hud-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2500;
+  background: rgba(12, 12, 14, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(228, 228, 231, 0.25);
+  padding: 14px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(228, 228, 231, 0.1);
+  width: 320px;
+  transition: opacity 0.5s, transform 0.5s;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+#media-hud-widget.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.hud-visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 24px;
+  height: 24px;
+}
+
+.hud-bar {
+  width: 3px;
+  height: 5px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: hudBounce 0.8s ease-in-out infinite alternate;
+  border-radius: 1px;
+}
+
+.hud-bar:nth-child(2) { animation-delay: 0.2s; animation-duration: 0.6s; }
+.hud-bar:nth-child(3) { animation-delay: 0.4s; animation-duration: 0.9s; }
+.hud-bar:nth-child(4) { animation-delay: 0.1s; animation-duration: 0.7s; }
+
+@keyframes hudBounce {
+  0% { height: 4px; }
+  100% { height: 22px; }
+}
+
+.hud-meta {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.5px;
+}
+
+.hud-status {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.hud-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hud-slider {
+  -webkit-appearance: none;
+  width: 60px;
+  height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  outline: none;
+}
+
+.hud-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+<div id="canvas-lightning-container"><svg id="bg-lightning-svg" width="100%" height="100%" style="position: absolute; inset: 0; pointer-events: none;"></svg></div>
+<div id="lightning-container"></div>
+<div id="particles"></div>
+
+<!-- BACKGROUND VIDEO & DYNAMIC HOVER BACKGROUND IMAGE CONTAINER -->
+<video id="bg-video" autoplay muted loop playsinline>
+<source src="https://file.garden/apAEXiwiHxGOmjTN/RASTUNNA%20-%20Slick%20V%2C%20Buensa%2C%20Uncle%20Dags%2C%20Ni%C3%B1o%20Armani%2C%20Cozy%20Wrld%20%26%20Louie%20Grammz%20(Official%20Lyric%20Video)%20-%20GREENHOUSE%20RECORDS%20(Philippines)%20(1080p).mp4" type="video/mp4">
+</video>
+<div id="bg-dynamic-image"></div>
+
+<!-- BACKGROUND AMBIENT MP3 AUDIO -->
+<audio id="bg-audio" crossorigin="anonymous" loop>
+  <source src="https://file.garden/apAEXiwiHxGOmjTN/RASTUNNA%20-%20Slick%20V%2C%20Buensa%2C%20Uncle%20Dags%2C%20Ni%C3%B1o%20Armani%2C%20Cozy%20Wrld%20%26%20Louie%20Grammz%20(Official%20Lyric%20Video).mp3" type="audio/mp3">
+</audio>
+
+<!-- Intro Screen Overlay -->
+<div id="intro-overlay">
+    <div class="intro-glow"></div>
+    <div class="intro-burst" id="intro-burst"></div>
+    <div class="intro-content">
+        <h1 class="intro-title">doxxedhub dept.</h1>
+        <p class="intro-subtitle">bawal tangahin rito</p>
+        <div class="intro-prompt" id="intro-prompt-btn">[ wait lang? ]</div>
+    </div>
+</div>
+
+<a id="server-counter" href="https://discord.gg/839kuQ2Nvs" target="_blank"><i class="fa-brands fa-discord"></i> <span id="server-count-text">Loading Members...</span></a>
+
+<!-- Header Navigation -->
+<header>
+    <a href="#" class="logo"><span>//</span>doxxedhub dept.</a>
+    <nav>
+        <button class="nav-btn active" onclick="showRow('row4', this)">HALL OF FAME</button>
+        <span class="separator">/</span>
+        <button class="nav-btn" onclick="showRow('row1', this)">Godfathers</button>
+        <span class="separator">/</span>
+        <button class="nav-btn" onclick="showRow('row2', this)">Godmothers</button>
+        <span class="separator">/</span>
+        <button class="nav-btn" onclick="showRow('row3', this)">Guardians</button>
+        <span class="separator">/</span>
+        <button class="nav-btn" onclick="showRow('row5', this)">Members</button>
+        <span class="separator">/</span>
+        <button class="nav-btn" onclick="showRow('row6', this)">Bloods</button>
+        <span class="separator">/</span>
+        <button class="nav-btn" onclick="showAbout(this)">About</button>
+        <span class="separator">/</span>
+        <button class="nav-btn" onclick="showRow('row7', this)">dev</button>
+    </nav>
+</header>
+
+<div id="header-container"><img id="header-logo" src="https://file.garden/ahSWVq1i7gxa8yrc/download__42_-removebg-preview.png" />
+<div id="hof-title">HALL OF FAME</div>
+</div>
+
+<!-- Glassmorphic Sidebar Morph Toggle Button -->
+<div class="sidebar-morph-toggle" id="sidebarToggleBtn" onclick="toggleContentCollapse()" title="Toggle Section View">
+  <i class="fa-solid fa-chevron-left"></i>
+</div>
+
+<div class="wrapper" id="mainWrapper">
+<div class="cards-row" id="row4"></div>
+<div class="cards-row" id="row1" style="display: none;"></div>
+<div class="cards-row" id="row2" style="display: none;"></div>
+<div class="cards-row" id="row3" style="display: none;"></div>
+<div class="cards-row" id="row5" style="display: none;">
+<div class="animate-scroll" id="row5-inner"></div>
+</div>
+<div class="cards-row" id="row6" style="display: none;"></div>
+<div class="cards-row" id="row7" style="display: none;"></div>
+<div class="cards-row" id="about-section" style="display: none; justify-content: center; align-items: flex-start;">
+<div style="width: 90%; max-width: 950px; border-radius: 40px; background: rgba(18,18,20,0.85); backdrop-filter: blur(16px); border: 1px solid rgba(228,228,231,0.25); box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(228,228,231,0.03); padding: 50px 60px; text-align: center; display: flex; flex-direction: column; gap: 30px; margin: 40px auto; box-sizing: border-box;"><img src="https://file.garden/ahSWVq1i7gxa8yrc/download__42_-removebg-preview.png" style="width: 180px; margin: 0 auto; filter: drop-shadow(0 0 25px rgba(228,228,231,0.6));" />
+<div style="font-size: 18px; line-height: 2.1; color: rgba(255,255,255,0.82); font-weight: 600;">Our purpose is not chaos or destruction. We value learning, exploration, and the calculated use of skill.</div>
+<div style="font-size: 18px; line-height: 2.1; color: rgba(255,255,255,0.82); font-weight: 600;">Doxxedhub dept. is an exclusive private syndicate. Access is restricted and invitation-only.</div>
+<div style="font-size: 18px; line-height: 2.1; color: rgba(255,255,255,0.82); font-weight: 600;">This is a space for those who think deeper, move smarter, and create with intent.</div>
+<div style="font-size: 20px; font-weight: 800; font-family: 'Cinzel', serif; letter-spacing: 2px;">Welcome to Doxxed Hub.</div>
+</div>
+</div>
+</div>
+<div id="media-hud-widget">
+<div class="hud-visualizer">
+<div class="hud-bar"></div>
+<div class="hud-bar"></div>
+<div class="hud-bar"></div>
+<div class="hud-bar"></div>
+</div>
+<div class="hud-meta">
+<div class="hud-title" id="hudTrackTitle">Matrix Syncing...</div>
+<div class="hud-status" id="hudUserStatus">Audio Streaming Asset</div>
+</div>
+<div class="hud-controls">
+<div class="hud-slider-wrapper"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.6;"><path d="M5 17h-5v-10h5v10zm2-10v10l9 5v-20l-9 5zm11 1v8c1.333-1.333 2-2.667 2-4s-.667-2.667-2-4z"></path></svg> <input type="range" class="hud-slider" id="hudVolumeControl" min="0" max="100" value="30" /></div>
+</div>
+</div>
+<div class="profile-modal" id="profileTelemetryModal">
+<div class="modal-content">
+<div class="modal-banner-area">
+<div class="modal-close-btn" onclick="closeTelemetryModal()">✕</div>
+<img class="modal-banner-img" id="modalBanner" />
+<div class="modal-avatar-wrapper"><img id="modalAvatar" /></div>
+</div>
+<div class="modal-body">
+<div class="modal-name-row">
+<div class="modal-display-name" id="modalDisplayName">Loading User...</div>
+<div class="modal-username-tag" id="modalUsernameTag">@username</div>
+</div>
+<div class="modal-section-title">Status</div>
+<div class="modal-status-box" id="modalCustomStatusBox">No custom node status set.</div>
+<div class="modal-grid-telemetry">
+<div class="telemetry-card">
+<div class="modal-section-title">User Status</div>
+<div class="telemetry-val" id="modalSystemStatus" style="text-transform: capitalize; display: flex; align-items: center; gap: 8px;">Disconnected</div>
+</div>
+<div class="telemetry-card" id="modalSpotifyCard" style="display: none;">
+<div class="modal-section-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1ed760"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.541 16.863c-.221 0-.435-.069-.62-.198-2.522-1.786-5.717-2.14-9.471-1.262-.442.104-.889-.168-.992-.611-.104-.442.168-.889.611-.992 4.108-.958 7.684-.539 10.536 1.482.366.259.455.757.196 1.122-.165.234-.415.359-.66.359zm1.467-3.009c-.279 0-.549-.109-.754-.312-2.915-2.852-7.443-3.391-11.233-1.611-.429.201-.944-.012-1.144-.441-.201-.43.011-.944.441-1.144 4.385-2.062 9.441-1.422 12.823 1.891.336.329.349.866.02 1.202-.198.204-.469.315-.753.315zm1.106-3.141c-.342 0-.672-.136-.921-.387-3.411-3.411-9.117-3.921-13.385-1.751-.48.242-1.07.05-1.312-.43-.242-.48-.05-1.07.43-1.312 4.849-2.464 11.229-1.879 15.267 2.16 3.65 3.65.365.955-.021 1.341-.247.243-.572.379-.918.379z"></path></svg> Listening to Spotify</div>
+<div class="spotify-container"><img class="spotify-album-art" id="spotifyArt" />
+<div class="spotify-details">
+<div class="spotify-track" id="spotifyTrack">Track Title</div>
+<div class="spotify-artist" id="spotifyArtist">Artist Name</div>
+</div>
+</div>
+<div class="spotify-progress-wrapper">
+<div class="spotify-bar-bg">
+<div class="spotify-bar-fill" id="spotifyProgressFill"></div>
+</div>
+<div class="spotify-time"><span id="spotifyTimeCurrent">0:00</span> <span id="spotifyTimeTotal">0:00</span></div>
+</div>
+</div>
+<div class="telemetry-card" id="modalVSCodeCard" style="display: none;">
+<div class="modal-section-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="#007acc"><path d="M23.985 17.56a.5.5 0 0 0-.203-.377l-4.754-3.61 4.754-3.61a.5.5 0 0 0 .203-.377V6.034a.5.5 0 0 0-.258-.437l-4.965-2.772a.5.5 0 0 0-.585.068L12 8.715 5.823 2.916a.5.5 0 0 0-.585-.068L.273 5.62A.5.5 0 0 0 .015 6.034v11.932a.5.5 0 0 0 .258.437l4.965 2.772a.5.5 0 0 0 .585-.068L12 15.285l6.177 5.799a.5.5 0 0 0 .585.068l4.965-2.772a.5.5 0 0 0 .258-.437V17.56zM13.5 13.515v-3.03l4-3.042v9.114l-4-3.042zm-3 0l-4 3.042V7.443l4 3.042v3.03z"></path></svg> Developer Status</div>
+<div class="vscode-container">
+<div class="vscode-details">
+<div class="vscode-file" id="vscodeFile">Editing System Core</div>
+<div class="vscode-workspace" id="vscodeWorkspace">Workspace Node</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<audio id="hoverSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio> 
+<audio id="switchSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+
+<script>
+
+const row1Ids = [
+  "826006626594193408",
+  "770589620315881482",
+  "1024717385908887742",
+  "1235485358779797504",
+  "766446593892548618",
+  "436560752216637461"
+];
+
+const row2Ids = [
+  "975317929572839454",
+  "388311822790426624",
+  "964030975258525726"
+];
+
+const row3Ids = [
+  "766446593892548618",
+  "1508845292588634254",
+  "1198074227681661120"
+ ];
+
+const row4Ids = [
+  "1177727874237730836",
+  "770589620315881482"
+];
+
+const row5Ids = [
+  "1172043393384325131",
+  "1358021440234065962",
+  "1497890768357163149",
+  "1448000014482669731",
+  "1494551634028527726",
+  "1392827654402474064",
+  "1446932849994240062",
+  "1494620062617698436",
+  "582533777872650250",
+  "1488063996425666652",
+  "1083284423333650472",
+  "819285379982557265",
+  "1438212143530115306",
+  "918805451158749214",
+  "775898883636461618",
+  "1477707492766257255",
+  "1280341624173625375",
+  "760258372107894844",
+  "1201072663641215066"
+];
+
+const row6Servers = [
+  "https://discord.gg/C9dXM9Kyd7",
+  "https://discord.gg/NVMBEQgYAU",
+  "https://discord.gg/Z4bXyEFkMP"
+];
+
+const row7Ids = [
+  "770589620315881482"
+];
+
+const defaultBanner = "https://file.garden/ahSWVq1i7gxa8yrc/0aa9cd2cc51e7275046c66c07e1b4abd.webp";
+
+const customBanners = {
+  "770589620315881482": "https://file.garden/apAEXiwiHxGOmjTN/download%20(10).gif",
+  "975317929572839454": "https://file.garden/ahSWVq1i7gxa8yrc/33389288179d89373a8a43ad48d9469b.gif",
+  "766446593892548618": "https://file.garden/ahSWVq1i7gxa8yrc/IMG_5191.png",
+  "436560752216637461": "https://file.garden/ahSWVq1i7gxa8yrc/a_9c6b10018703c346e3691d2771834e6d.gif",
+  "826006626594193408": "https://file.garden/ahSWVq1i7gxa8yrc/download%20(18).gif",
+  "388311822790426624": "https://file.garden/ahSWVq1i7gxa8yrc/download%20(20).gif",
+  "1024717385908887742": "https://file.garden/ahSWVq1i7gxa8yrc/download%20(17).gif",
+  "1504450341939314740": "https://file.garden/ahSWVq1i7gxa8yrc/cross_city_wallpaper.png",
+  "964030975258525726": "https://file.garden/ahSWVq1i7gxa8yrc/04D7CC95-2788-4C07-BE91-D843F42B3076.gif",
+  "1508845292588634254": "https://file.garden/ahSWVq1i7gxa8yrc/Save%20Stunning%20meal%20prep%20recipes%20that%20are%20trending%20right%20now%20across%20Pinterest%20boards%20for%20ideas%20worth%20saving%20right%20now.gif",
+  "1198074227681661120": "https://file.garden/ahSWVq1i7gxa8yrc/Fresh%20journaling%20prompts%20that%20make%20your%20next%20project%20look%20polished%20and%20expensive%20for%20your%20next%20inspiration%20board.gif",
+  "1177727874237730836": "https://file.garden/apAEXiwiHxGOmjTN/download%20(6).gif",
+  "1426254205676425326": "https://file.garden/ahSWVq1i7gxa8yrc/346620219_6918325314850650_8971004925893998058_n.gif",
+  "1235485358779797504": "https://file.garden/ahSWVq1i7gxa8yrc/image0.gif",
+  "775898883636461618": "https://file.garden/ahSWVq1i7gxa8yrc/download%20(27).gif",
+  "1358021440234065962": "https://file.garden/ahSWVq1i7gxa8yrc/download%20(26).gif",
+  "1438212143530115306": "https://file.garden/ahSWVq1i7gxa8yrc/download%20(25).gif",
+  "509947490049720350": "https://file.garden/ahSWVq1i7gxa8yrc/MANDEM%20(feat.%20Bxby%20thug%20%26%20Badkidd).mp3"
+};
+
+const customMusic = {
+  "975317929572839454": "https://file.garden/ahSWVq1i7gxa8yrc/Laufey%20-%20Madwoman%20(Lyrics).mp3",
+  "770589620315881482": "https://file.garden/apAEXiwiHxGOmjTN/snaptik_7683181310210313492_v3.mp3",
+  "436560752216637461": "https://file.garden/ahSWVq1i7gxa8yrc/MANILA%20GREY%20-%20Timezones%20(Official%20Music%20Video).mp3",
+  "766446593892548618": "https://file.garden/ahSWVq1i7gxa8yrc/SCOOP%20DOGG%2C%20DAARTH%20-%20MOOLAH%20(Lyrics).mp3",
+  "826006626594193408": "https://file.garden/ahSWVq1i7gxa8yrc/Some%20Of%20Your%20Love%20(partynextdoor).mp3",
+  "388311822790426624": "https://file.garden/ahSWVq1i7gxa8yrc/Billy%20Idol%20-%20Eyes%20Without%20A%20Face%20(Lyrics).mp3",
+  "1024717385908887742": "https://file.garden/ahSWVq1i7gxa8yrc/O%20SIDE%20MAFIA%20X%20BRGR%20-%20SHAKE%20(OFFICIAL%20MUSIC%20VIDEO).mp3",
+  "1504450341939314740": "https://file.garden/ahSWVq1i7gxa8yrc/Fly.mp3",
+  "964030975258525726": "https://file.garden/ahSWVq1i7gxa8yrc/Drake%20-%20Over%20My%20Dead%20Body%20(Lyrics).mp3",
+  "1508845292588634254": "https://file.garden/ahSWVq1i7gxa8yrc/YoungBoy%20Never%20Broke%20Again%20-%20Nevada%20%5BOfficial%20Audio%5D%20%5BJfGnwcf5Lt0%5D.mp3",
+  "1198074227681661120": "https://file.garden/apAEXiwiHxGOmjTN/snaptik_7682377284229074197_v3.mp3",
+  "1177727874237730836": "https://file.garden/apAEXiwiHxGOmjTN/snaptik_7682289057405160711_v3.mp3",
+  "1426254205676425326": "https://file.garden/ahSWVq1i7gxa8yrc/Nateman%20-%20DEMON%20TIME%20feat.%20J.%20Cipher%20(Official%20Lyric%20Video).mp3",
+  "1235485358779797504": "https://file.garden/ahSWVq1i7gxa8yrc/Jhen%C3%A9%20Aiko%20-%20Sativa%20ft.%20Swae%20Lee%20(Official%20Audio).mp3",
+  "775898883636461618": "https://file.garden/ahSWVq1i7gxa8yrc/673a78f384d17098db010ab1bc85e2a0.mp3",
+  "1358021440234065962": "https://file.garden/ahSWVq1i7gxa8yrc/Justine%20Skye%20-%20Collide%20ft.%20Tyga.mp3",
+  "1438212143530115306": "https://file.garden/ahSWVq1i7gxa8yrc/the%20kill%202.mp3",
+  "509947490049720350": "https://file.garden/ahSWVq1i7gxa8yrc/MANDEM%20(feat.%20Bxby%20thug%20%26%20Badkidd).mp3"
+};
+
+const lanyardCache = {};
+const activeAudioNodes = {};
+let currentActivePlayingUserId = null;
+let globalMasterVolume = 0.3;
+let spotifyIntervalEngine = null;
+let bgResumeTimeout = null;
+let isHoveringCard = false;
+let isAppLoaded = false;
+
+// Web Audio API Visualizer State for Header Text Beat Sync
+let audioCtx = null;
+let analyser = null;
+let dataArray = null;
+let sourceNode = null;
+let isAudioVisualizerInitialized = false;
+
+function initAudioVisualizer() {
+  if (isAudioVisualizerInitialized) return;
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    audioCtx = new AudioContextClass();
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 256;
+    
+    const bgAudio = document.getElementById("bg-audio");
+    sourceNode = audioCtx.createMediaElementSource(bgAudio);
+    sourceNode.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+    isAudioVisualizerInitialized = true;
+    
+    requestAnimationFrame(updateAudioVisualizerSync);
+  } catch (e) {
+    console.error("Web Audio API Visualizer initialization error:", e);
+  }
+}
+
+function updateAudioVisualizerSync() {
+  requestAnimationFrame(updateAudioVisualizerSync);
+  if (!analyser || !dataArray) return;
+  analyser.getByteFrequencyData(dataArray);
+  
+  let bassSum = 0;
+  const bassBins = 10;
+  for (let i = 0; i < bassBins; i++) {
+    bassSum += dataArray[i];
+  }
+  let bassAverage = bassSum / bassBins;
+  
+  const hofTitle = document.getElementById("hof-title");
+  if (hofTitle) {
+    const intensity = bassAverage / 255;
+    const glowBlur = 10 + intensity * 45;
+    const brightness = 1 + intensity * 0.6;
+    const shadowAlpha = 0.3 + intensity * 0.7;
+    
+    hofTitle.style.textShadow = `0 0 ${glowBlur}px rgba(228, 228, 231,${shadowAlpha}), 0 0 ${glowBlur * 1.5}px rgba(255, 255, 255,${intensity * 0.7})`;
+    hofTitle.style.filter = `brightness(${brightness})`;
+  }
+}
+
+function toggleContentCollapse() {
+  playSwitch();
+  document.body.classList.toggle("content-collapsed");
+}
+
+function scrambleText(element, finalText, duration = 1000) {
+  const chars = '!@#$%^&*()_+~`|}{[]\\:;?><,./-=XYZ0123456789#';
+  let iterations = 0;
+  clearInterval(element.scrambleInterval);
+  
+  element.scrambleInterval = setInterval(() => {
+    element.innerText = finalText.split("")
+      .map((letter, index) => {
+        if (letter === " ") return " ";
+        if (index < iterations) return finalText[index];
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join("");
+    
+    if (iterations >= finalText.length) {
+      clearInterval(element.scrambleInterval);
+      element.innerText = finalText;
+    }
+    iterations += finalText.length / (duration / 30);
+  }, 30);
+}
+
+function playHover() {
+  const s = document.getElementById("hoverSound");
+  s.currentTime = 0;
+  s.volume = 0.3;
+}
+
+function playSwitch() {
+  const s = document.getElementById("switchSound");
+  s.currentTime = 0;
+  s.volume = 0.4;
+}
+
+function showRow(rowId, btn) {
+  playSwitch();
+
+  document.querySelectorAll('.cards-row').forEach(row => {
+    row.style.display = 'none';
+  });
+
+  const targetRow = document.getElementById(rowId);
+  targetRow.style.display = 'flex';
+  targetRow.classList.remove("fade-glitch");
+  void targetRow.offsetWidth;
+  targetRow.classList.add("fade-glitch");
+
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const titleElement = document.getElementById("hof-title");
+  scrambleText(titleElement, btn.textContent);
+  
+  if (rowId === 'row7') {
+    triggerCoderCardLightning();
+  }
+}
+
+function showAbout(btn) {
+  showRow('about-section', btn);
+}
+
+async function renderCards(ids, containerId) {
+  const container = document.getElementById(containerId);
+  const target = containerId === "row5"
+    ? document.getElementById("row5-inner")
+    : container;
+
+  let cardsHTML = "";
+
+  for (const id of ids) {
+    try {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${id}`);
+      const { data } = await res.json();
+      lanyardCache[id] = data;
+
+      const discord = data.discord_user;
+      const isAnimated = discord.avatar && discord.avatar.startsWith('a_');
+      const avatar = `https://cdn.discordapp.com/avatars/${discord.id}/${discord.avatar}.${isAnimated ? 'gif' : 'png'}?size=512`;
+
+      let bannerUrl = "";
+      if (containerId === "row5" && data.user && data.user.banner) {
+        const isBannerAnimated = data.user.banner.startsWith('a_');
+        bannerUrl = `https://cdn.discordapp.com/banners/${id}/${data.user.banner}.${isBannerAnimated ? 'gif' : 'png'}?size=1024`;
+      }
+
+      const isMember = containerId === "row5";
+      const hasBanner = bannerUrl !== "";
+      
+      let finalStatus = "No Current Activity";
+      if (containerId === "row7") {
+        finalStatus = "we run this shit";
+      } else if (data.activities && data.activities.length > 0) {
+        finalStatus = data.activities[0].name || "No Current Activity";
+      }
+
+      const isCoder = containerId === "row7";
+      const mappedStaticBanner = customBanners[id] || defaultBanner;
+      const definitiveBanner = hasBanner ? bannerUrl : mappedStaticBanner;
+
+      cardsHTML += `
+      <div class="card ${isMember && !hasBanner ? 'no-banner' : ''} ${hasBanner ? 'has-bg' : ''}" 
+           data-banner="${definitiveBanner}"
+           ${customMusic[id] ? `data-music="${customMusic[id]}"` : ""} 
+           data-userid="${id}"
+           onclick="openTelemetryModal('${id}', '${definitiveBanner}', '${avatar}')"
+           onmouseenter="handleCardHoverScramble(this, '${(discord.display_name || discord.username).replace(/'/g, "\\'")}')">
+
+        ${isCoder ? `<div class="coder-lightning-container" id="coder-lightning"></div>` : ""}
+
+        ${hasBanner ? `<img class="banner" src="${bannerUrl}">` : ""}
+        ${!isMember ? `<img class="banner" src="${customBanners[id] || defaultBanner}">` : ""}
+
+        <div class="profileWrapper">
+          <div class="profile">
+            <img src="${avatar}">
+          </div>
+        </div>
+
+        <div class="info">
+          <div class="username">${discord.display_name || discord.username}</div>
+          <div class="tag">@${discord.username}</div>
+        </div>
+
+        <div class="status-text">
+          ${finalStatus}
+        </div>
+
+      </div>`;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  if (containerId === "row5") {
+    target.innerHTML = cardsHTML + cardsHTML;
+  } else {
+    target.innerHTML = cardsHTML;
+  }
+
+  initializeTilt();
+}
+
+function handleCardHoverScramble(cardElement, rawNameText) {
+  const targetLabel = cardElement.querySelector(".username");
+  if (targetLabel) {
+    scrambleText(targetLabel, rawNameText, 600);
+  }
+}
+
+function openTelemetryModal(userId, banner, avatar) {
+  const data = lanyardCache[userId];
+  if (!data) return; 
+
+  playSwitch();
+
+  if (customMusic[userId] && activeAudioNodes[userId]) {
+    currentActivePlayingUserId = userId;
+    if (activeAudioNodes[userId].fadeOutInterval) clearInterval(activeAudioNodes[userId].fadeOutInterval);
+    if (activeAudioNodes[userId].fadeInInterval) clearInterval(activeAudioNodes[userId].fadeInInterval);
+    
+    activeAudioNodes[userId].volume = globalMasterVolume;
+    
+    const hudWidget = document.getElementById("media-hud-widget");
+    hudWidget.classList.add("active");
+    document.getElementById("hudTrackTitle").innerText = data.discord_user.display_name || data.discord_user.username;
+    document.getElementById("hudUserStatus").innerText = "Matrix Loop Active Stream";
+  }
+
+  document.getElementById("modalBanner").src = banner;
+  document.getElementById("modalAvatar").src = avatar;
+  
+  const dName = document.getElementById("modalDisplayName");
+  dName.innerText = data.discord_user.display_name || data.discord_user.username;
+  scrambleText(dName, dName.innerText, 800);
+
+  document.getElementById("modalUsernameTag").innerText = `@${data.discord_user.username}`;
+  
+  const customStatusActivity = data.activities.find(a => a.type === 4);
+  let statusHTML = "";
+  if (customStatusActivity) {
+    if (customStatusActivity.emoji) {
+      if (customStatusActivity.emoji.id) {
+        const ext = customStatusActivity.emoji.animated ? 'gif' : 'png';
+        statusHTML += `<img src="https://cdn.discordapp.com/emojis/${customStatusActivity.emoji.id}.${ext}" style="width:22px;height:22px;object-fit:contain;vertical-align:middle;"> `;
+      } else if (customStatusActivity.emoji.name) {
+        statusHTML += `<span style="font-size:1.3rem; vertical-align:middle;">${customStatusActivity.emoji.name}</span> `;
+      }
+    }
+    if (customStatusActivity.state) {
+      statusHTML += `<span style="vertical-align:middle; margin-left:5px;">${customStatusActivity.state}</span>`;
+    }
+  }
+  document.getElementById("modalCustomStatusBox").innerHTML = statusHTML || "No custom status set.";
+
+  let statusColor = "#94a3b8";
+  if (data.discord_status === "online") statusColor = "#22c55e";
+  else if (data.discord_status === "idle") statusColor = "#eab308";
+  else if (data.discord_status === "dnd") statusColor = "#ef4444";
+  
+  const sysStatusText = document.getElementById("modalSystemStatus");
+  sysStatusText.innerHTML = `<span style="width:10px; height:10px; border-radius:50%; background:${statusColor}; display:inline-block; box-shadow: 0 0 10px ${statusColor}"></span> ${data.discord_status || "offline"}`;
+
+  clearInterval(spotifyIntervalEngine);
+  const spotifyCard = document.getElementById("modalSpotifyCard");
+  if (data.listening_to_spotify && data.spotify) {
+    spotifyCard.style.display = "block";
+    document.getElementById("spotifyArt").src = data.spotify.album_art_url;
+    document.getElementById("spotifyTrack").innerText = data.spotify.track;
+    document.getElementById("spotifyArtist").innerText = data.spotify.artist;
+    
+    let startTime = data.spotify.timestamps.start;
+    let endTime = data.spotify.timestamps.end;
+    let totalDuration = endTime - startTime;
+
+    function parseTimeStr(ms) {
+      let s = Math.floor(ms / 1000);
+      let m = Math.floor(s / 60);
+      s = s % 60;
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+    
+    document.getElementById("spotifyTimeTotal").innerText = parseTimeStr(totalDuration);
+
+    spotifyIntervalEngine = setInterval(() => {
+      let currentProgress = Date.now() - startTime;
+      if (currentProgress > totalDuration) currentProgress = totalDuration;
+      
+      let pct = (currentProgress / totalDuration) * 100;
+      document.getElementById("spotifyProgressFill").style.width = `${pct}%`;
+      document.getElementById("spotifyTimeCurrent").innerText = parseTimeStr(currentProgress);
+    }, 1000);
+  } else {
+    spotifyCard.style.display = "none";
+  }
+
+  const vscodeCard = document.getElementById("modalVSCodeCard");
+  const vsActivity = data.activities.find(a => a.name === "Visual Studio Code" || a.application_id === "367827558110822403");
+  if (vsActivity) {
+    vscodeCard.style.display = "block";
+    document.getElementById("vscodeFile").innerText = vsActivity.details || "Developing Unknown Pipeline";
+    document.getElementById("vscodeWorkspace").innerText = vsActivity.state || "Active Project Matrix";
+  } else {
+    vscodeCard.style.display = "none";
+  }
+
+  document.getElementById("profileTelemetryModal").classList.add("active");
+}
+
+function closeTelemetryModal() {
+  playSwitch();
+  document.getElementById("profileTelemetryModal").classList.remove("active");
+  clearInterval(spotifyIntervalEngine);
+  
+  if (currentActivePlayingUserId) {
+    const userId = currentActivePlayingUserId;
+    currentActivePlayingUserId = null;
+    
+    let audio = activeAudioNodes[userId];
+    if (audio) {
+      if (audio.fadeOutInterval) clearInterval(audio.fadeOutInterval);
+      let v = audio.volume;
+      audio.fadeOutInterval = setInterval(() => {
+        if (v > 0.02) {
+          v -= 0.02;
+          audio.volume = v;
+        } else {
+          audio.pause();
+          clearInterval(audio.fadeOutInterval);
+        }
+      }, 40);
+    }
+    document.getElementById("media-hud-widget").classList.remove("active");
+  }
+}
+
+async function renderServerCards() {
+  const container = document.getElementById("row6");
+
+  for (const invite of row6Servers) {
+    try {
+      const code = invite.split("/").pop();
+      const res = await fetch(`https://discord.com/api/v9/invites/${code}?with_counts=true&with_expiration=true`);
+      const data = await res.json();
+      const guild = data.guild;
+
+      const icon = guild.icon
+        ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=512`
+        : "https://cdn.discordapp.com/embed/avatars/0.png";
+
+      const banner = guild.banner
+        ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png?size=1024`
+        : defaultBanner;
+
+      container.innerHTML += `
+      <a href="${invite}" target="_blank" style="text-decoration:none;color:white;">
+
+        <div class="card" data-banner="${banner}" onmouseenter="handleCardHoverScramble(this, '${guild.name.replace(/'/g, "\\'")}')">
+
+          <img class="banner" src="${banner}">
+
+          <div class="profileWrapper">
+            <div class="profile">
+              <img src="${icon}">
+            </div>
+          </div>
+
+          <div class="info">
+            <div class="username">${guild.name}</div>
+            <div class="tag">${guild.vanity_url_code ? "#" + guild.vanity_url_code : "Discord Server"}</div>
+          </div>
+
+          <div class="status-text">
+            ${data.approximate_member_count || 0} Members
+          </div>
+
+        </div>
+
+      </a>`;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  initializeTilt();
+}
+
+async function updateMainServerCounter() {
+  const serverCountText = document.getElementById("server-count-text");
+  if (!serverCountText) return;
+  try {
+    const res = await fetch(`https://discord.com/api/v9/invites/839kuQ2Nvs?with_counts=true`);
+    const data = await res.json();
+    if (data && data.approximate_member_count) {
+      serverCountText.innerText = `${data.approximate_member_count} Members`;
+    } else {
+      serverCountText.innerText = "Join Server";
+    }
+  } catch (err) {
+    console.error(err);
+    serverCountText.innerText = "Join Server";
+  }
+}
+
+function initializeMusic() {
+  const bgVideo = document.getElementById("bg-video");
+  const bgAudio = document.getElementById("bg-audio");
+
+  bgAudio.volume = globalMasterVolume;
+  
+  bgVideo.currentTime = 0;
+  bgAudio.currentTime = 0;
+  
+  bgVideo.play().catch(() => {});
+  bgAudio.play().then(() => {
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    initAudioVisualizer();
+  }).catch(() => {});
+
+  bgAudio.addEventListener('error', () => {
+    bgVideo.play().catch(() => {});
+  });
+
+  setInterval(() => {
+    if (bgVideo.paused && !currentActivePlayingUserId && !bgResumeTimeout && !isHoveringCard) {
+      bgVideo.play().catch(() => {});
+    }
+    if (bgAudio.paused && !currentActivePlayingUserId && !bgResumeTimeout && !isHoveringCard) {
+      bgAudio.play().catch(() => {});
+    }
+    if (!bgVideo.paused && Math.abs(bgVideo.currentTime - bgAudio.currentTime) > 0.5) {
+      bgAudio.currentTime = bgVideo.currentTime;
+    }
+  }, 1000);
+
+  document.querySelectorAll(".card[data-music]").forEach(card => {
+    const userId = card.dataset.userid;
+    if (!userId) return;
+
+    const audio = new Audio(card.dataset.music);
+    audio.loop = true;
+    audio.volume = 0;
+    activeAudioNodes[userId] = audio;
+
+    card.addEventListener("mouseenter", () => {
+      isHoveringCard = true;
+      const bannerImg = card.dataset.banner;
+      const bgDyn = document.getElementById("bg-dynamic-image");
+      if (bannerImg) {
+        bgDyn.style.backgroundImage = `url('${bannerImg}')`;
+        bgDyn.style.opacity = "1";
+      }
+
+      if (bgResumeTimeout) {
+        clearTimeout(bgResumeTimeout);
+        bgResumeTimeout = null;
+      }
+
+      bgVideo.pause();
+      bgAudio.pause();
+
+      Object.entries(activeAudioNodes).forEach(([id, node]) => {
+        if (id !== userId) {
+          if (node.fadeInInterval) clearInterval(node.fadeInInterval);
+          if (node.fadeOutInterval) clearInterval(node.fadeOutInterval);
+          node.volume = 0;
+          node.pause();
+          node.currentTime = 0;
+        }
+      });
+
+      playHover();
+      
+      if (currentActivePlayingUserId && currentActivePlayingUserId !== userId) {
+        currentActivePlayingUserId = null;
+      }
+
+      if (audio.fadeOutInterval) clearInterval(audio.fadeOutInterval);
+      if (audio.fadeInInterval) clearInterval(audio.fadeInInterval);
+
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+      let v = audio.volume;
+
+      audio.fadeInInterval = setInterval(() => {
+        if (v < globalMasterVolume) {
+          v += 0.05;
+          audio.volume = Math.min(v, globalMasterVolume);
+        } else {
+          clearInterval(audio.fadeInInterval);
+        }
+      }, 30);
+    });
+
+    card.addEventListener("mouseleave", () => {
+      isHoveringCard = false;
+      const bgDyn = document.getElementById("bg-dynamic-image");
+      bgDyn.style.opacity = "0";
+
+      if (currentActivePlayingUserId === userId) return;
+
+      if (bgResumeTimeout) clearTimeout(bgResumeTimeout);
+      bgResumeTimeout = setTimeout(() => {
+        bgVideo.play().catch(() => {});
+        bgAudio.play().catch(() => {});
+        bgResumeTimeout = null;
+      }, 1000);
+
+      if (audio.fadeInInterval) clearInterval(audio.fadeInInterval);
+      if (audio.fadeOutInterval) clearInterval(audio.fadeOutInterval);
+
+      let v = audio.volume;
+      audio.fadeOutInterval = setInterval(() => {
+        if (v > 0.02) {
+          v -= 0.05;
+          audio.volume = v;
+        } else {
+          audio.pause();
+          audio.currentTime = 0;
+          clearInterval(audio.fadeOutInterval);
+        }
+      }, 30);
+    });
+  });
+
+  document.querySelectorAll(".card:not([data-music])").forEach(card => {
+    card.addEventListener("mouseenter", () => {
+      isHoveringCard = true;
+      const bannerImg = card.dataset.banner;
+      const bgDyn = document.getElementById("bg-dynamic-image");
+      if (bannerImg) {
+        bgDyn.style.backgroundImage = `url('${bannerImg}')`;
+        bgDyn.style.opacity = "1";
+      }
+
+      if (bgResumeTimeout) {
+        clearTimeout(bgResumeTimeout);
+        bgResumeTimeout = null;
+      }
+
+      bgVideo.pause();
+      bgAudio.pause();
+    });
+    card.addEventListener("mouseleave", () => {
+      isHoveringCard = false;
+      const bgDyn = document.getElementById("bg-dynamic-image");
+      bgDyn.style.opacity = "0";
+
+      if (bgResumeTimeout) clearTimeout(bgResumeTimeout);
+      bgResumeTimeout = setTimeout(() => {
+        bgVideo.play().catch(() => {});
+        bgAudio.play().catch(() => {});
+        bgResumeTimeout = null;
+      }, 1000);
+    });
+  });
+
+  document.getElementById("hudVolumeControl")?.addEventListener("input", (e) => {
+    globalMasterVolume = e.target.value / 100;
+    bgAudio.volume = globalMasterVolume;
+    if (currentActivePlayingUserId && activeAudioNodes[currentActivePlayingUserId]) {
+      activeAudioNodes[currentActivePlayingUserId].volume = globalMasterVolume;
+    }
+  });
+}
+
+function initializeTilt() {
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("mousemove", e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = -(y - centerY) / 18;
+      const rotateY = (x - centerX) / 18;
+
+      card.style.transform = `
+      perspective(1000px)
+      rotateX(${rotateX}deg)
+      rotateY(${rotateY}deg)
+      translateY(-10px)
+      scale(1.02)
+      `;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "";
+    });
+  });
+}
+
+function createParticles() {
+  const container = document.getElementById("particles");
+  for (let i = 0; i < 28; i++) {
+    const orb = document.createElement("div");
+    orb.className = "orb";
+    const size = Math.random() * 120 + 30;
+    orb.style.width = `${size}px`;
+    orb.style.height = `${size}px`;
+    orb.style.left = `${Math.random() * 100}%`;
+    orb.style.animationDuration = `${Math.random() * 20 + 15}s`;
+    orb.style.animationDelay = `${Math.random() * 10}s`;
+    container.appendChild(orb);
+  }
+}
+
+function startLightning() {
+  const container = document.getElementById("lightning-container");
+  
+  function triggerFlash() {
+    const flash = document.createElement("div");
+    flash.className = "lightning-flash";
+    flash.style.left = `${Math.random() * 40}%`;
+    flash.style.top = `${Math.random() * 40}%`;
+    flash.style.right = `${Math.random() * 40}%`;
+    flash.style.bottom = `${Math.random() * 40}%`;
+    
+    const duration = Math.random() * 0.4 + 0.2;
+    flash.style.animation = `flash-anim ${duration}s ease-out forwards`;
+    
+    container.appendChild(flash);
+    setTimeout(() => { flash.remove(); }, duration * 1000);
+    setTimeout(triggerFlash, Math.random() * 4000 + 2000);
+  }
+  
+  triggerFlash();
+}
+
+function initializeCanvasLightningEngine() {
+  const svg = document.getElementById("bg-lightning-svg");
+  
+  function createCanvasStrike() {
+    svg.innerHTML = "";
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    
+    let startX = Math.random() * w;
+    let startY = 0;
+    
+    let dPath = `M ${startX} ${startY}`;
+    let segments = Math.floor(Math.random() * 6) + 8;
+    let curX = startX;
+    let curY = startY;
+    
+    for (let i = 0; i < segments; i++) {
+      curX += (Math.random() - 0.5) * (w * 0.15);
+      curY += (h / segments) * (Math.random() * 0.4 + 0.8);
+      dPath += ` L ${curX} ${curY}`;
+    }
+    
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathElement.setAttribute("d", dPath);
+    pathElement.setAttribute("stroke", "#f4f4f5");
+    pathElement.setAttribute("stroke-width", (Math.random() * 3 + 2).toString());
+    pathElement.setAttribute("fill", "none");
+    pathElement.style.filter = "drop-shadow(0 0 8px #d4d4d8) drop-shadow(0 0 15px #e4e4e7)";
+    pathElement.style.transition = "opacity 0.1s ease";
+    
+    svg.appendChild(pathElement);
+    
+    setTimeout(() => { pathElement.style.opacity = "0.3"; }, 50);
+    setTimeout(() => { pathElement.style.opacity = "0.9"; }, 100);
+    setTimeout(() => { pathElement.style.opacity = "0.1"; }, 160);
+    setTimeout(() => { pathElement.style.opacity = "0.8"; }, 200);
+    setTimeout(() => { svg.innerHTML = ""; }, 350);
+    
+    setTimeout(createCanvasStrike, Math.random() * 6000 + 3000);
+  }
+  
+  setTimeout(createCanvasStrike, 2000);
+}
+
+function triggerCoderCardLightning() {
+  const container = document.getElementById("coder-lightning");
+  if (!container) return;
+  
+  container.innerHTML = "";
+  const width = 520;
+  const height = 270;
+  
+  function generateFileBoltPath() {
+    let x = Math.random() * width;
+    let y = 0;
+    let path = `M ${x} ${y}`;
+    
+    while (y < height) {
+      x += (Math.random() - 0.5) * 45;
+      y += Math.random() * 25 + 10;
+      path += ` L ${x} ${y}`;
+    }
+    return path;
+  }
+  
+  function createVisualBolt() {
+    const svgNamespace = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNamespace, "svg");
+    svg.setAttribute("width", "100%");
+    svg.setAttribute("height", "100%");
+    svg.style.position = "absolute";
+    svg.style.inset = "0";
+    
+    const path = document.createElementNS(svgNamespace, "path");
+    path.setAttribute("class", "coder-bolt");
+    path.setAttribute("d", generateFileBoltPath());
+    path.style.animation = "boltStrike 1.2s ease-out forwards";
+    
+    svg.appendChild(path);
+    container.appendChild(svg);
+    
+    setTimeout(() => { svg.remove(); }, 1200);
+  }
+  
+  createVisualBolt();
+  setTimeout(createVisualBolt, 250);
+}
+
+function setupIntroOverlay() {
+  const introOverlay = document.getElementById("intro-overlay");
+  const introBurst = document.getElementById("intro-burst");
+  const introPromptBtn = document.getElementById("intro-prompt-btn");
+
+  introOverlay.addEventListener("click", () => {
+    if (!isAppLoaded) return;
+
+    playSwitch();
+    introBurst.classList.add("active");
+    introOverlay.classList.add("fade-out");
+
+    initializeMusic();
+  });
+}
+
+async function initApp() {
+  createParticles();
+  startLightning();
+  initializeCanvasLightningEngine();
+  setupIntroOverlay();
+
+  await Promise.all([
+    renderCards(row1Ids, "row1"),
+    renderCards(row2Ids, "row2"),
+    renderCards(row3Ids, "row3"),
+    renderCards(row4Ids, "row4"),
+    renderCards(row5Ids, "row5"),
+    renderCards(row7Ids, "row7"),
+    renderServerCards(),
+    updateMainServerCounter()
+  ]);
+
+  isAppLoaded = true;
+  const overlay = document.getElementById("intro-overlay");
+  const promptBtn = document.getElementById("intro-prompt-btn");
+  
+  if (overlay) overlay.classList.add("ready");
+  if (promptBtn) promptBtn.innerText = "[ $ $ $ ]";
+}
+
+initApp();
+
+</script>
+
+<script>
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) ||
+    (e.ctrlKey && e.key.toUpperCase() === 'U')
+  ) {
+    e.preventDefault();
+  }
+});
+</script>
+
+</body>
+</html>
